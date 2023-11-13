@@ -1,20 +1,16 @@
-import React, { useState, useRef, useEffect } from 'react'
-
 import './widget.css'
+import useResizeObserver from 'use-resize-observer'
+import { useIframeHeight } from './useIframeHeight'
 
 export const Widget = () => {
-  const [width, setWidth] = useState()
-  const iframeContainer = useRef<any>()
-
-  useEffect(() => {
-    const measurements = iframeContainer.current.getBoundingClientRect()
-    if (measurements) {
-      setWidth(measurements.width)
-    }
-  }, [])
+  const height = useIframeHeight()
+  const { ref: containerNode, width: containerWidth } = useResizeObserver<HTMLIFrameElement>({})
 
   return (
-    <div className="widget">
+    <div
+      className="widget"
+      style={{ visibility: height ? 'visible' : 'hidden' }}
+    >
       <h1>App content</h1>
       <p>Check out our latest podcast</p>
       <div
@@ -22,11 +18,11 @@ export const Widget = () => {
           width: '100%',
           overflow: 'hidden',
         }}
-        ref={iframeContainer}
+        ref={containerNode}
       >
         <iframe
-          height="117px"
-          width={width}
+          height={height}
+          width={containerWidth}
           src="/iframe"
           style={{ border: 0 }}
         />
