@@ -1,10 +1,8 @@
 import './widget.css'
-import useResizeObserver from 'use-resize-observer'
 import { useIframeHeight } from './useIframeHeight'
 
 export const Widget = () => {
   const height = useIframeHeight()
-  const { ref: containerNode, width: containerWidth } = useResizeObserver<HTMLIFrameElement>({})
 
   return (
     <div
@@ -18,11 +16,10 @@ export const Widget = () => {
           width: '100%',
           overflow: 'hidden',
         }}
-        ref={containerNode}
       >
         <iframe
           height={height}
-          width={containerWidth}
+          width="100%"
           src="/iframe"
           style={{ border: 0 }}
         />
